@@ -97,33 +97,57 @@
     // renderer
     //var renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     var renderer = new THREE.WebGLRenderer({antialias: true});
-    var renderWidth = 500;
-    var renderHeight = 400;
+    var renderWidth = 600;
+    var renderHeight = 600;
     renderer.setSize(renderWidth, renderHeight);
     document.querySelector('.threejs').appendChild(renderer.domElement);
 
     // camera
     var camera = new THREE.PerspectiveCamera(45, renderWidth / renderHeight, 1, 3000);
     //camera.position.z = 1000;
-    camera.position.set( 1000, 250, 1500); // x,y,z
+    camera.position.set( 1000, 350, 1500); // x,y,z
     camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 //    camera.rotation.z = 1;
 
     // scene
     var scene = new THREE.Scene();
 
-    for(var yi = -25; yi < 25; yi++) {
-        for(var xi = -25; xi < 25; xi++) {
-            // cube (width, height, depth)
-            var cube = new THREE.Mesh(new THREE.CubeGeometry(200, 200, 200), new THREE.MeshBasicMaterial({
-                wireframe: true,
-                color: '#444'
+    var spacing = 500;
+    for(var zi = -3; zi < 3; zi++) {
+
+        for(var yi = -3; yi < 3; yi++) {
+
+            var bar = new THREE.Mesh(new THREE.CubeGeometry(3000, 15, 15), new THREE.MeshBasicMaterial({
+                //wireframe: true,
+                color: '#33f'
             }));
-            //cube.rotation.x = Math.PI * 0.1;
-            cube.position.x = xi * 300;
-            cube.position.y = yi * 300;
-            scene.add(cube);
-        }
+            //bar.position.x = xi * spacing;
+            bar.position.y = yi * spacing;
+            bar.position.z = zi * spacing;
+            scene.add(bar);
+
+            var bar2 = new THREE.Mesh(new THREE.CubeGeometry(15, 3000, 15), new THREE.MeshBasicMaterial({
+                //wireframe: true,
+                color: '#3f3'
+            }));
+            //bar.position.x = xi * spacing;
+            bar2.position.y = yi * spacing;
+            bar2.position.z = zi * spacing;
+            scene.add(bar2);
+
+            for(var xi = -3; xi < 3; xi++) {
+                // cube (width, height, depth)
+                var cube = new THREE.Mesh(new THREE.CubeGeometry(100, 100, 100), new THREE.MeshBasicMaterial({
+                    //wireframe: true,
+                    color: '#ddd'
+                }));
+                //cube.rotation.x = Math.PI * 0.1;
+                cube.position.x = xi * spacing;
+                cube.position.y = yi * spacing;
+                cube.position.z = zi * spacing;
+                scene.add(cube);
+            }
+        }        
     }
 
     /* End: Three.js configuration */
