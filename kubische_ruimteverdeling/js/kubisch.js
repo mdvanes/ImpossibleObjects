@@ -11,7 +11,7 @@
     // revolutions per second
     var settings = {
         spacing: 500, // block spacing
-        sceneDepth: 3000,
+        sceneDepth: 5000,
         cameraLookAt: null
     };
     var angularSpeed = 0.2;
@@ -20,7 +20,7 @@
     kubisch.angle = 0;
 
     kubisch.isShiftingOn = false;
-    kubisch.isRotateOn = false;
+    kubisch.isSpiralOutOn = false;
 
     // this function is executed on each animation frame
     var animate = function() {
@@ -35,7 +35,7 @@
         if(kubisch.isShiftingOn) {
             camera.position.x += 1;
         }
-        if(kubisch.isRotateOn) {
+        if(kubisch.isSpiralOutOn) {
             // TODO a circle on the x/z plane
             camera.position.x += 1;
             camera.position.z -= 1;
@@ -53,7 +53,7 @@
 
     var createCube = function(xi,yi,zi) {
         // cube (width, height, depth)
-        var cube = new THREE.Mesh(new THREE.BoxGeometry(100, 100, 100), new THREE.MeshBasicMaterial({
+        var cube = new THREE.Mesh(new THREE.BoxGeometry(100, 100, 100), new THREE.MeshLambertMaterial({
             //wireframe: true,
             color: '#ddd'
         }));
@@ -90,9 +90,9 @@
             y = 0;
             z = zi * settings.spacing;
         }
-        var bar = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), new THREE.MeshBasicMaterial({
+        var bar = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), new THREE.MeshLambertMaterial({
             //wireframe: true,
-            color: '#33f'
+            color: '#999'//'#33f'
         }));
         bar.position.x = x;
         bar.position.y = y;
@@ -131,7 +131,7 @@
     kubisch.init = function() {
         // renderer
         //var renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
-        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
         var renderWidth = 600;
         var renderHeight = 600;
         renderer.setSize(renderWidth, renderHeight);
@@ -149,6 +149,27 @@
         scene = new THREE.Scene();
 
         addElements();
+
+        // add subtle blue ambient lighting
+        // var ambientLight = new THREE.AmbientLight(0xffffff);
+        // scene.add(ambientLight);
+
+        // directional lighting
+        var directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(500, 500, -1000);
+        //directionalLight.position.set(500, 500, 1000).normalize();
+        scene.add(directionalLight);
+
+        var directionalLightFront = new THREE.DirectionalLight(0xffffff);
+        directionalLightFront.position.set(0, 500, 1000);
+        directionalLightFront.intensity = 0.2;
+        scene.add(directionalLightFront);
+
+        // fog
+        // var fog = new THREE.Fog(0xffffff, 2000, 5000); // TODO hex, near, far make near and far variables
+        // scene.add(fog);
+        scene.fog = new THREE.Fog(0xffffff, 2000, 3000); // TODO hex, near, far make near and far variables
+
         animate();
     };
 
@@ -164,11 +185,11 @@
     });
     $('body').append($buttonShifting);
 
-    var $buttonRotate = $('<button>toggle rotate (spiral out)</button>');
-    $buttonRotate.click(function() {
-        kubisch.isRotateOn = !kubisch.isRotateOn;
+    var $buttonSpiralOut = $('<button>toggle spiral out</button>');
+    $buttonSpiralOut.click(function() {
+        kubisch.isSpiralOutOn = !kubisch.isSpiralOutOn;
     });
-    $('body').append($buttonRotate);
+    $('body').append($buttonSpiralOut);
 
     //threeCube.animate();
     kubisch.init();
