@@ -21,6 +21,7 @@
 
     kubisch.isShiftingOn = false;
     kubisch.isSpiralOutOn = false;
+    kubisch.isResetOn = false;
 
     // this function is executed on each animation frame
     var animate = function() {
@@ -40,6 +41,12 @@
             camera.position.x += 1;
             camera.position.z -= 1;
             camera.lookAt( settings.cameraLookAt );
+        }
+        if(kubisch.isResetOn) {
+            camera.position.set( 500, 500, 1000);
+            settings.cameraLookAt = new THREE.Vector3( -100, -150, 0 );
+            camera.lookAt( settings.cameraLookAt );
+            kubisch.isResetOn = false;
         }
 
         // render
@@ -179,18 +186,24 @@
 (function() {
     'use strict';
 
-    var $buttonShifting = $('<button>toggle shifting</button>');
-    $buttonShifting.click(function() {
-        kubisch.isShiftingOn = !kubisch.isShiftingOn;
-    });
-    $('body').append($buttonShifting);
+    var Button = function(caption, callback) {
+        var $button = $('<button>' + caption + '</button>');
+        $button.click(callback);
+        $('body').append($button);
+    };
 
-    var $buttonSpiralOut = $('<button>toggle spiral out</button>');
-    $buttonSpiralOut.click(function() {
+    new Button('shifting', function() {
+        kubisch.isShiftingOn = !kubisch.isShiftingOn;
+        //this.innerHTML = 'shifting: on';
+    });
+
+    new Button('spiral out', function() {
         kubisch.isSpiralOutOn = !kubisch.isSpiralOutOn;
     });
-    $('body').append($buttonSpiralOut);
 
-    //threeCube.animate();
+    new Button('reset', function() {
+        kubisch.isResetOn = true;
+    });
+
     kubisch.init();
 })();
