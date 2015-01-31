@@ -192,6 +192,10 @@
         $('body').append($button);
     };
 
+    new Button('home', function() {
+        document.location.href='../index.html';
+    });
+
     new Button('shifting', function() {
         kubisch.isShiftingOn = !kubisch.isShiftingOn;
         //this.innerHTML = 'shifting: on';
