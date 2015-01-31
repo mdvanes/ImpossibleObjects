@@ -2,21 +2,24 @@
     // TODO possible to resize the cubes, so all distances should be relative
 
     var settings = {
+        height: 90,
         width: 100
     };
+    //settings.vOffset = settings.height / 2;
+    settings.hOffset = settings.width / 2;
 
     var Cube = function(ctx, left, top) {
         //console.log('new cube ', left, top);
         //ctx.fillRect(left, top, 100, 100);
 
-        var width = settings.width;
-        var offset = settings.width / 2;
+        // var width = settings.width;
+        // var offset = settings.hOffset; //settings.width / 2;
 
         var topPlane = new Path2D();
         topPlane.moveTo(left, top);
-        topPlane.lineTo(left + width, top);
-        topPlane.lineTo(left + width + offset, top + 90);
-        topPlane.lineTo(left + offset, top + 90);
+        topPlane.lineTo(left + settings.width, top);
+        topPlane.lineTo(left + settings.width + settings.hOffset, top + 90);
+        topPlane.lineTo(left + settings.hOffset, top + 90);
         // 60 degrees
 
         //ctx.stroke(topPlane);
@@ -24,9 +27,9 @@
         ctx.fill(topPlane);
 
         var rightPlane = new Path2D();
-        rightPlane.moveTo(left + offset, top + 90);
-        rightPlane.lineTo(left + width + offset, top + 90);
-        rightPlane.lineTo(left + width, top + 180);
+        rightPlane.moveTo(left + settings.hOffset, top + 90);
+        rightPlane.lineTo(left + settings.width + settings.hOffset, top + 90);
+        rightPlane.lineTo(left + settings.width, top + 180);
         rightPlane.lineTo(left, top + 180);
         // 60 degrees
 
@@ -36,9 +39,9 @@
 
         var leftPlane = new Path2D();
         leftPlane.moveTo(left, top);
-        leftPlane.lineTo(left + offset, top + 90);
+        leftPlane.lineTo(left + settings.hOffset, top + 90);
         leftPlane.lineTo(left, top + 180);
-        leftPlane.lineTo(left - offset, top + 90);
+        leftPlane.lineTo(left - settings.hOffset, top + 90);
 
         ctx.fillStyle = '#FF6347';
         ctx.fill(leftPlane);
