@@ -2,11 +2,15 @@
     // TODO possible to resize the cubes, so all distances should be relative
 
     var settings = {
-        height: 90,
-        width: 100
+        height: 90, // block height
+        width: 100, // block width
+        canvasDimension: 600 // canvas width and height
     };
     //settings.vOffset = settings.height / 2;
     settings.hOffset = settings.width / 2;
+    settings.canvasCenter = settings.canvasDimension / 2;
+    settings.verticalDistance = 1.35 * settings.width;
+    settings.horizontalDistance = 0.75 * settings.width;
 
     var Cube = function(ctx, left, top) {
         //console.log('new cube ', left, top);
@@ -47,59 +51,57 @@
         ctx.fill(leftPlane);
     };
 
+    var getRibsRight = function() {
+        var ribs = [];
+        for(var i = 0; i < 4; i++) {
+            //var coords = [];
+            var x = settings.canvasCenter + (settings.horizontalDistance * i);
+            var y = settings.verticalDistance * i;
+            ribs.push([x,y]);
+        }
+        return ribs;        
+    };
+
+    // TODO enable strict mode
+
+    var getRibsBottom = function() {
+        var ribs = [];
+        for(var i = 1; i < 4; i++) {
+            // TODO scope
+            var x = (settings.canvasCenter + (settings.horizontalDistance * 3)) - (settings.horizontalDistance * i * 2);
+            //console.log('ribsbottom', x1);
+            var y = (settings.verticalDistance * 3);
+            ribs.push([x,y]);
+        }
+        return ribs;
+    };
+
+    var getRibsLeft = function() {
+        var ribs = [];
+        for(var i = 2; i > 0; i--) {
+            // TODO scope
+            var x = settings.canvasCenter - (settings.horizontalDistance * i);
+            var y = settings.verticalDistance * i;
+            ribs.push([x,y]);
+        }
+        return ribs;
+    };
+
     var init = function() {
+        // Prepare canvas
         var $canvas = $('<canvas></canvas>');
         $canvas.css('border', '1px solid black');
         var canvas = $canvas[0];
-        canvas.height = 600;
-        canvas.width = 600;
+        canvas.height = settings.canvasDimension;
+        canvas.width = settings.canvasDimension;
         var ctx = canvas.getContext('2d');
         $('.reutersvard').append($canvas);
 
-        // ctx.fillStyle = 'green';
-        // ctx.fillRect(20, 10, 100, 100);
-        // ctx.clearRect(10, 50, 20, 20);
-
-
-        //new Cube(ctx, 10, 50);
-        var verticalDistance = 1.35 * settings.width;
-        var horizontalDistance = 0.75 * settings.width;
-
-        // var ribsRight = [0, 1, 2, 3];
-        // var ribsRightCenters = ribsRight.map(function(index) {
-
-        // });
-        var ribsRight, ribsBottom, ribsLeft, cubeCenters, i;
-        cubeCenters = [];//[[300, 0],[300 + horizontalDistance, verticalDistance],[300 + (horizontalDistance * 2), verticalDistance * 2]];
-
-        ribsRight = [];
-        for(i = 0; i < 4; i++) {
-            //var coords = [];
-            var x = 300 + (horizontalDistance * i);
-            var y = verticalDistance * i;
-            ribsRight.push([x,y]);
-        }
-        cubeCenters = cubeCenters.concat(ribsRight);
-
-        ribsBottom = [];
-        for(i = 1; i < 4; i++) {
-            // TODO scope
-            var x1 = (300 + (horizontalDistance * 3)) - (horizontalDistance * i * 2);
-            //console.log('ribsbottom', x1);
-            var y1 = (verticalDistance * 3);
-            ribsBottom.push([x1,y1]);
-        }
-        cubeCenters = cubeCenters.concat(ribsBottom);
-
-        ribsLeft = [];
-        for(i = 2; i > 0; i--) {
-            // TODO scope
-            var x2 = 300 - (horizontalDistance * i);
-            //console.log('ribsbottom', x1);
-            var y2 = verticalDistance * i;
-            ribsLeft.push([x2,y2]);
-        }
-        cubeCenters = cubeCenters.concat(ribsLeft);
+        // Make a list of all the normal cubes
+        var cubeCenters = [];
+        cubeCenters = cubeCenters.concat(getRibsRight());
+        cubeCenters = cubeCenters.concat(getRibsBottom());
+        cubeCenters = cubeCenters.concat(getRibsLeft());
 
         //console.log('cub',cubeCenters);
         cubeCenters.map(function(coords) {
@@ -107,6 +109,7 @@
             new Cube(ctx, coords[0], coords[1]);
         });
 
+        // Add special planes
         // TODO to function
         // TODO to relative
         var left = 300;
@@ -132,8 +135,8 @@
         ctx.fill(extraRightPlane);
 
         // TODO reuse ribsRight function?
-        left = 300 + horizontalDistance;
-        top = verticalDistance;
+        left = 300 + settings.horizontalDistance;
+        top = settings.verticalDistance;
         offset = settings.width / 2;
         var extraLeftPlane2 = new Path2D();
         extraLeftPlane2.moveTo(left, top);
