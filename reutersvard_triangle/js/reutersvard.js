@@ -1,24 +1,32 @@
 ;(function() {
     'use strict';
-    // TODO possible to resize the cubes, so all distances should be relative
 
     var ctx = null;
 
     var settings = {
-        height: 90, // block height = width - 0.9
+        height: 90, // block height = width * 0.9
         width: 100, // block width
         canvasDimension: 600, // canvas width and height
+        topMargin: 10,
+        // colors: {
+        //     top: '#FFD700',
+        //     right: '#008080',
+        //     left: '#FF6347'
+        // },
+        //useStroke: false
+        // colors: {
+        //     top: 'white',
+        //     right: 'white',
+        //     left: '#ccc'
+        // },
+        // useStroke: true
         colors: {
-            top: '#FFD700',
-            right: '#008080',
-            left: '#FF6347'
+            top: '#eee',
+            right: '#ddd',
+            left: '#ccc'
         },
         useStroke: false
     };
-    // settings.hOffset = settings.width / 2;
-    // settings.canvasCenter = settings.canvasDimension / 2;
-    // settings.verticalDistance = 1.35 * settings.width;
-    // settings.horizontalDistance = 0.75 * settings.width;
     settings.hOffset = null;
     settings.canvasCenter = null;
     settings.verticalDistance = null;
@@ -77,34 +85,6 @@
         }
     };
 
-    /*
-    // var getRibsRight = function() {
-    //     var indexes = range(0,3);
-    //     return indexes.map(getRightCubeCoord);
-    // };
-
-    // var getRibsBottom = function() {
-    //     var ribs = [];
-    //     for(var i = 1; i < 4; i++) {
-    //         var x = (settings.canvasCenter + (settings.horizontalDistance * 3)) - (settings.horizontalDistance * i * 2);
-    //         var y = (settings.verticalDistance * 3);
-    //         ribs.push([x,y]);
-    //     }
-    //     return ribs;
-    // };
-
-    // var getRibsLeft = function() {
-    //     var ribs = [];
-    //     for(var i = 2; i > 0; i--) {
-    //         var x = settings.canvasCenter - (settings.horizontalDistance * i);
-    //         var y = settings.verticalDistance * i;
-    //         ribs.push([x,y]);
-    //     }
-    //     return ribs;
-    // };
-    */
-
-
     // Create an array with the integers from start to end
     var range = function(start, end) {
         var r = [];
@@ -116,21 +96,44 @@
 
     var getRightCubeCoord = function(i) {
         var x = settings.canvasCenter + (settings.horizontalDistance * i);
-        var y = settings.verticalDistance * i;
+        var y = settings.topMargin + settings.verticalDistance * i;
         return [x,y];
     };
 
     // TODO combine into Ribs object? or Ribs Util with range and getXCubeCoord?
     var getBottomCubeCoord = function(i) {
         var x = (settings.canvasCenter + (settings.horizontalDistance * 3)) - (settings.horizontalDistance * i * 2);
-        var y = (settings.verticalDistance * 3);
+        var y = settings.topMargin + (settings.verticalDistance * 3);
         return [x,y];
     };
 
     var getLeftCubeCoord = function(i) {
         var x = settings.canvasCenter - (settings.horizontalDistance * i);
-        var y = settings.verticalDistance * i;
+        var y = settings.topMargin + settings.verticalDistance * i;
         return [x,y];
+    };
+
+    var getHalfRightPlane = function(coords) {
+        var left = coords[0];
+        var top = coords[1];
+        var plane = new Path2D();
+        plane.moveTo(left + settings.hOffset, top + settings.height);
+        plane.lineTo(left + (settings.width/2) + settings.hOffset, top + settings.height);
+        plane.lineTo(left + (settings.width/2), top + (settings.height * 2));
+        plane.lineTo(left, top + (settings.height * 2));
+        //console.log(left, right);
+        return plane;
+
+        // var left = coords[0];
+        // var top = 0;
+        // var offset = settings.width / 2;
+        // var extraRightPlane = new Path2D();
+        // extraRightPlane.moveTo(left + offset, top + 90);
+        // extraRightPlane.lineTo(left + (settings.width/2) + offset, top + 90);
+        // extraRightPlane.lineTo(left + (settings.width/2), top + 180);
+        // extraRightPlane.lineTo(left, top + 180);
+        // ctx.fillStyle = 'blue';
+        // ctx.fill(extraRightPlane);        
     };
 
     var draw = function() {
@@ -157,59 +160,28 @@
             cube.draw();
         });
 
-        // Add special planes
-        // TODO to function
-        // TODO to relative
-        var left = 300;
-        var top = 0;
-        var offset = settings.width / 2;
-        var extraLeftPlane = new Path2D();
-        // TODO reuse from Cube
-        extraLeftPlane.moveTo(left, top);
-        extraLeftPlane.lineTo(left + offset, top + 90);
-        extraLeftPlane.lineTo(left, top + 180);
-        extraLeftPlane.lineTo(left - offset, top + 90);
+        var extraCube1Coord = getRightCubeCoord(0);
+        var extraCube1 = new Cube(ctx, extraCube1Coord[0], extraCube1Coord[1]);
+        // TODO cube.drawPlane is independent from cube and should be on Cube?
+        extraCube1.drawPlane(extraCube1.getLeftPlane(), settings.colors.left);
 
-        ctx.fillStyle = '#FF6347';
-        ctx.fill(extraLeftPlane);
-
-        var extraRightPlane = new Path2D();
-        extraRightPlane.moveTo(left + offset, top + 90);
-        extraRightPlane.lineTo(left + (settings.width/2) + offset, top + 90);
-        extraRightPlane.lineTo(left + (settings.width/2), top + 180);
-        extraRightPlane.lineTo(left, top + 180);
-
-        ctx.fillStyle = '#008080';
-        ctx.fill(extraRightPlane);
+        var extraHalfRightPlane = getHalfRightPlane(extraCube1Coord);
+        // Don't use drawPlane here because never draw stroke //extraCube1.drawPlane(extraHalfRightPlane, settings.colors.right);
+        ctx.fillStyle = settings.colors.right;
+        ctx.fill(extraHalfRightPlane);
 
         // Draw extra left plane for Cube 2
-        // left = settings.canvasCenter + settings.horizontalDistance;
-        // top = settings.verticalDistance;
-        // var extraCube2 = new Cube(ctx, left, top);
         var extraCube2Coord = getRightCubeCoord(1);
         var extraCube2 = new Cube(ctx, extraCube2Coord[0], extraCube2Coord[1]);
-        var extraLeftPlane2 = extraCube2.getLeftPlane();
-        extraCube2.drawPlane(extraLeftPlane2, settings.colors.left);
-        // left = 300 + settings.horizontalDistance;
-        // top = settings.verticalDistance;
-        // offset = settings.width / 2;
-        // var extraLeftPlane2 = new Path2D();
-        // extraLeftPlane2.moveTo(left, top);
-        // extraLeftPlane2.lineTo(left + offset, top + 90);
-        // extraLeftPlane2.lineTo(left, top + 180);
-        // extraLeftPlane2.lineTo(left - offset, top + 90);
-
-        // ctx.fillStyle = 'red';
-        // ctx.fill(extraLeftPlane2);
+        extraCube2.drawPlane(extraCube2.getLeftPlane(), settings.colors.left);
     };
 
     var init = function() {
         // Prepare canvas
         var $canvas = $('<canvas></canvas>');
-        //$canvas.css('border', '1px solid black');
         $canvas.css('background-color', '#fff');
         var canvas = $canvas[0];
-        canvas.height = settings.canvasDimension;
+        canvas.height = settings.canvasDimension + 5;
         canvas.width = settings.canvasDimension + settings.width;
         ctx = canvas.getContext('2d');
         $('.reutersvard').append($canvas);
