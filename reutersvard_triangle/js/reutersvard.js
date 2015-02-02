@@ -21,9 +21,9 @@
         // },
         // useStroke: true
         colors: {
-            top: '#eee',
-            right: '#ddd',
-            left: '#ccc'
+            top: '#ddd',
+            right: '#ccc',
+            left: '#bbb'
         },
         useStroke: false
     };
@@ -113,6 +113,7 @@
         return [x,y];
     };
 
+    // The Exception
     var getHalfRightPlane = function(coords) {
         var left = coords[0];
         var top = coords[1];
@@ -121,19 +122,7 @@
         plane.lineTo(left + (settings.width/2) + settings.hOffset, top + settings.height);
         plane.lineTo(left + (settings.width/2), top + (settings.height * 2));
         plane.lineTo(left, top + (settings.height * 2));
-        //console.log(left, right);
         return plane;
-
-        // var left = coords[0];
-        // var top = 0;
-        // var offset = settings.width / 2;
-        // var extraRightPlane = new Path2D();
-        // extraRightPlane.moveTo(left + offset, top + 90);
-        // extraRightPlane.lineTo(left + (settings.width/2) + offset, top + 90);
-        // extraRightPlane.lineTo(left + (settings.width/2), top + 180);
-        // extraRightPlane.lineTo(left, top + 180);
-        // ctx.fillStyle = 'blue';
-        // ctx.fill(extraRightPlane);        
     };
 
     var draw = function() {
@@ -150,9 +139,6 @@
         cubeCenters = cubeCenters.concat(range(0,3).map(getRightCubeCoord));
         cubeCenters = cubeCenters.concat(range(1,3).map(getBottomCubeCoord));
         cubeCenters = cubeCenters.concat([2,1].map(getLeftCubeCoord));
-        // cubeCenters = cubeCenters.concat(range(0,3).map(getRightCubeCoord));//getRibsRight());
-        // cubeCenters = cubeCenters.concat(getRibsBottom());
-        // cubeCenters = cubeCenters.concat(getRibsLeft());
 
         // Add the normal cubes
         cubeCenters.map(function(coords) {
