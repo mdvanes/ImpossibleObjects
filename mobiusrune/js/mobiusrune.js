@@ -21,17 +21,37 @@
     // Degrees e.g. 90 convert to radians: 90 * Math.PI / 180;
     const degToRad = rad => rad * Math.PI / 180;
 
+    const getMeshFaceMaterial = () => {
+        let logoTexture = new THREE.TextureLoader().load( 'texture/logo.png' );
+        let logoMaterial = new THREE.MeshBasicMaterial( { map: logoTexture } );
+        let crateTexture = new THREE.TextureLoader().load( 'texture/crate.gif' );
+        let crateMaterial = new THREE.MeshBasicMaterial( { map: crateTexture } );
+        return new THREE.MeshFaceMaterial( [crateMaterial, logoMaterial, crateMaterial, crateMaterial, crateMaterial, crateMaterial] );
+    };
+
     const init = function() {
         startAnimation = false;
         camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
         camera.position.z = 250;
         scene = new THREE.Scene();
-        let texture = new THREE.TextureLoader().load( 'img/texture.gif' );
-        let geometry = new THREE.BoxBufferGeometry( 30, 200, 200 );
-        let material = new THREE.MeshBasicMaterial( { map: texture } );
-        mesh = new THREE.Mesh( geometry, material );
+
+        // let texture = new THREE.TextureLoader().load( 'img/texture2.png' );
+        // let geometry = new THREE.BoxBufferGeometry( 30, 166, 200 ); // depth, height, width
+        // let material = new THREE.MeshBasicMaterial( { map: texture } );
+        // mesh = new THREE.Mesh( geometry, material );
+
+        let geometry = new THREE.BoxBufferGeometry( 30, 166, 200 ); // depth, height, width
+        mesh = new THREE.Mesh( geometry, getMeshFaceMaterial() );
+
         mesh.rotation.y = degToRad(90); // Rotation in radians
         scene.add( mesh );
+
+        // Test overlapping objects
+        // let mesh2 = new THREE.Mesh( geometry, material );
+        // mesh2.rotation.y = degToRad(90); // Rotation in radians
+        // mesh2.position.y = 100;
+        // mesh2.position.z = -50;
+        // scene.add( mesh2 );
 
         renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setClearColor(0x000000, 0.6);
