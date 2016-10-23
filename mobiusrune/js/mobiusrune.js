@@ -2,7 +2,14 @@
 ((THREE) => {
     let camera, scene, renderer, mesh, canvasSquareSize, startAnimation;
 
-    const getCanvasSquareSize = () => window.innerWidth / 3;
+    const getCanvasSquareSize = () => { 
+        if(window.innerWidth > window.innerHeight) {
+            return window.innerHeight * 0.9;
+        } else {
+            console.log(window.innerWidth * 0.9);
+            return window.innerWidth * 0.9;
+        }
+    };
 
     const updateDimensions = () => {
         camera.aspect = 1; // window.innerWidth / window.innerHeight;
@@ -51,7 +58,8 @@
         if(startAnimation && mesh.rotation.x > degToRad(-55)) {
             mesh.rotation.x -= 0.01;
             //mesh.rotation.y += 0.01;
-        } else {
+        } else if(startAnimation) {
+            setTimeout(() => mesh.rotation.x = 0, 800);
             startAnimation = false;
         }
         renderer.render( scene, camera );
