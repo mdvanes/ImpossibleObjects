@@ -29,6 +29,60 @@
         return new THREE.MeshFaceMaterial( [crateMaterial, logoMaterial, crateMaterial, crateMaterial, crateMaterial, crateMaterial] );
     };
 
+    const addBlockWithLogoMesh = scene => {
+        // Working basic block with image of logo
+        let geometry = new THREE.BoxBufferGeometry( 30, 166, 200 ); // depth, height, width
+        let localMesh = new THREE.Mesh( geometry, getMeshFaceMaterial() );
+
+        localMesh.rotation.y = degToRad(90); // Rotation in radians
+        scene.add( localMesh );
+        return localMesh;
+    };
+
+    // TODO make this a pure function (do not pass scene, return promise?)
+    const addExternalMesh = scene => {
+        // https://github.com/mrdoob/three.js/blob/dev/examples/webgl_loader_json_blender.html
+        // Doesn't work, maybe the one above (json_blender)
+        // https://github.com/mrdoob/three.js/blob/dev/examples/webgl_loader_obj.html
+        // var onProgress = function ( xhr ) {
+        //     if ( xhr.lengthComputable ) {
+        //         var percentComplete = xhr.loaded / xhr.total * 100;
+        //         console.log( Math.round(percentComplete, 2) + '% downloaded' );
+        //     }
+        // };
+
+        // var onError = function ( xhr ) {};
+
+        // var manager = new THREE.LoadingManager();
+        // manager.onProgress = function ( item, loaded, total ) {
+        //     console.log( item, loaded, total );
+        // };
+        //var loader = new THREE.JSONLoader( manager );
+        var loader = new THREE.JSONLoader();
+        loader.load( 'logotest1.json', function ( geometry1, materials1) {
+            console.log('JSONLoader', geometry1, materials1);
+
+            //let geometry = new THREE.BoxBufferGeometry( 30, 166, 200 ); // depth, height, width
+            let texture1 = new THREE.TextureLoader().load( 'texture/crate.gif' );
+            let material1 = new THREE.MeshBasicMaterial( { map: texture1 } );
+            mesh = new THREE.Mesh( geometry1, material1 );
+
+            mesh.rotation.x = degToRad(90); // Rotation in radians
+            mesh.scale.set(50,50,50);
+            mesh.position.x = 200;
+            mesh.position.y = 60;
+            scene.add( mesh );
+    
+            // object.traverse( function ( child ) {
+            //     if ( child instanceof THREE.Mesh ) {
+            //         child.material.map = texture;
+            //     }
+            // } );
+            // object.position.y = - 95;
+            // scene.add( object );
+        }/*, onProgress, onError*/ );
+    };
+
     const init = function() {
         startAnimation = false;
         camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -40,11 +94,8 @@
         // let material = new THREE.MeshBasicMaterial( { map: texture } );
         // mesh = new THREE.Mesh( geometry, material );
 
-        let geometry = new THREE.BoxBufferGeometry( 30, 166, 200 ); // depth, height, width
-        mesh = new THREE.Mesh( geometry, getMeshFaceMaterial() );
-
-        mesh.rotation.y = degToRad(90); // Rotation in radians
-        scene.add( mesh );
+        //mesh = addBlockWithLogoMesh(scene);
+        addExternalMesh(scene);
 
         // Test overlapping objects
         // let mesh2 = new THREE.Mesh( geometry, material );
@@ -74,12 +125,19 @@
 
     const animate = function() {
         requestAnimationFrame( animate );
-        //console.log(mesh.rotation.x);
-        if(startAnimation && mesh.rotation.x > degToRad(-55)) {
+        //console.log((mesh.rotation.x * 180) / Math.PI);
+        // Basic
+        // if(startAnimation && mesh.rotation.x > degToRad(-55)) {
+        //     mesh.rotation.x -= 0.01;
+        // } else if(startAnimation) {
+        //     setTimeout(() => mesh.rotation.x = 0, 800);
+        //     startAnimation = false;
+        // }
+        // Jsonloader
+        if(startAnimation && mesh.rotation.x > degToRad(65)) {
             mesh.rotation.x -= 0.01;
-            //mesh.rotation.y += 0.01;
         } else if(startAnimation) {
-            setTimeout(() => mesh.rotation.x = 0, 800);
+            setTimeout(() => mesh.rotation.x = degToRad(90), 800);
             startAnimation = false;
         }
         renderer.render( scene, camera );
