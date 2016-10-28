@@ -63,7 +63,7 @@
 
             // Fix material, see https://github.com/mrdoob/three.js/blob/dev/examples/webgl_loader_json_blender.html
             //const texture = new THREE.TextureLoader().load( 'texture/logo.png' );
-            const texture = new THREE.TextureLoader().load( 'texture/crate.gif' );
+            const texture = new THREE.TextureLoader().load( 'texture/logotest1-texture.png' );
             //console.log('jsonloadertex', texture);
             const material = new THREE.MeshBasicMaterial( { map: texture } );
             mesh = new THREE.Mesh( geometry, material );
@@ -128,7 +128,7 @@
         //     startAnimation = false;
         // }
         // Jsonloader
-        if(startAnimation && mesh.rotation.x > degToRad(65)) {
+        if(startAnimation && mesh.rotation.x > degToRad(-15)) {
             mesh.rotation.x -= 0.01;
         } else if(startAnimation) {
             setTimeout(() => mesh.rotation.x = degToRad(90), 800);
