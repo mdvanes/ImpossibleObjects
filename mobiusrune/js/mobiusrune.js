@@ -70,9 +70,9 @@
             //mesh = new THREE.Mesh( geometry, getMeshFaceMaterial2() );
 
             mesh.rotation.x = degToRad(90); // Rotation in radians
-            mesh.scale.set(50,50,50);
-            mesh.position.x = 200;
-            mesh.position.y = 60;
+            mesh.scale.set(20,20,20);
+            //mesh.position.x = 200;
+            //mesh.position.y = 60;
             scene.add( mesh );    
         });
     };
