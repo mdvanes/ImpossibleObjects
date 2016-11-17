@@ -20,3 +20,4 @@ ctrl+alt+shift+c and use origin to 3d cursor
 ## blender mesh only sides are solid??
 Skipped step after making the custom shape. First switch to 2D in "curve" menu on the right.
 Only then extrude.
+Also: of any mesh (even 3d) go to edit mode, select all vertices (with A), press F to add a Face that closes these vertices.
