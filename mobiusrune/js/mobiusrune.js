@@ -66,7 +66,7 @@
             //const texture = new THREE.TextureLoader().load( 'texture/crate.gif' );
             //const texture = new THREE.TextureLoader().load( 'texture/logo.png' );
             //const texture = new THREE.TextureLoader().load( 'texture/logotest1-texture.png' );
-            const texture = new THREE.TextureLoader().load( 'texture/mdlogo-texture.png?v=-1' );
+            const texture = new THREE.TextureLoader().load( 'texture/mdlogo-texture.png?v=1' );
             //console.log('jsonloadertex', texture);
             const material = new THREE.MeshBasicMaterial( { map: texture } );
             mesh = new THREE.Mesh( geometry, material );
