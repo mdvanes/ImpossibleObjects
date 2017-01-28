@@ -39,7 +39,6 @@ window.mobiusrune = (mobiusrune => {
         return new THREE.Line(geometry, material);
     };
 
-    mobiusrune = mobiusrune || {};
     mobiusrune.getRouteSpline = getRouteSpline;
     mobiusrune.getRouteDebugLine = getRouteDebugLine;
 
