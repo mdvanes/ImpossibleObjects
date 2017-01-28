@@ -1,5 +1,5 @@
 /* jshint esnext:true */
-window.mobiusrune = (function(mobiusrune){
+window.mobiusrune = ((mobiusrune) => {
     let camPosIndex = 0;
 
     const setCameraOnSplinePath = (camera, routeSpline) => {

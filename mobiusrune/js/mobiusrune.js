@@ -2,42 +2,6 @@
 ((THREE, mobiusrune) => {
     let camera, scene, renderer, mesh, canvasSquareSize, startAnimation, routeSpline;
 
-    // TODO refactor
-    //let camPosIndex = 0;
-    // const randomPoints = [];
-    // // for ( let i = 0; i < 100; i ++ ) {
-    // //     randomPoints.push(
-    // //         new THREE.Vector3(
-    // //             Math.random() * 200 - 100, 
-    // //             Math.random() * 200 - 100, 
-    // //             Math.random() * 200 - 100)
-    // //     );
-    // // }
-    // // let foo = 250;
-    // // let nx = 0;
-    // // let ny = 0;
-    // // for ( let i = 0; i < 100; i ++ ) {
-    // //     foo -= 1;
-    // //     nx -= 1;
-    // //     ny -= 1;
-    // //     randomPoints.push(
-    // //         new THREE.Vector3(
-    // //             nx, 
-    // //             ny, 
-    // //             foo )
-    // //     );
-    // // }
-    // randomPoints.push(new THREE.Vector3(0,0,250));
-    // randomPoints.push(new THREE.Vector3(0,50,200));
-    // randomPoints.push(new THREE.Vector3(0,0,150));
-    // randomPoints.push(new THREE.Vector3(0,0,100));
-    // // randomPoints.push(new THREE.Vector3(-25,-25,100));
-    // // randomPoints.push(new THREE.Vector3(-250,-150,50));
-    // // randomPoints.push(new THREE.Vector3(150,150,50));
-    // console.log(randomPoints);
-    // //const spline = new THREE.SplineCurve3(randomPoints);
-    // let spline = new THREE.CatmullRomCurve3(randomPoints);
-
     const getCanvasSquareSize = () => { 
         if(window.innerWidth > window.innerHeight) {
             return window.innerHeight * 0.9;
@@ -119,66 +83,6 @@
         });
     };
 
-    // const addTestCurve = _ => {
-    //     // var curve = new THREE.CatmullRomCurve3( [
-    //     //     new THREE.Vector3( -100, 0, -110 ),
-    //     //     new THREE.Vector3( -50, 5, -105 ),
-    //     //     new THREE.Vector3( 0, 0, -100 ),
-    //     //     new THREE.Vector3( 50, -5, -105 ),
-    //     //     new THREE.Vector3( 100, 0, -110 )
-    //     // ]);
-
-    //     // var geometry = new THREE.Geometry();
-    //     // geometry.vertices = curve.getPoints( 50 );
-
-    //     // var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-    //     // const mesh = new THREE.Mesh(geometry, material);
-    //     // console.log('test curve', mesh);
-    //     // return mesh;
-
-
-    //     // docs: https://threejs.org/docs/api/extras/curves/SplineCurve3.html
-
-    //     const spline1 = new THREE.SplineCurve3([
-
-    //                          // x   y   z
-
-    //         // new THREE.Vector3( -30, -20, 250 ),
-    //         // new THREE.Vector3( -10, 10, 150 ),
-    //         // new THREE.Vector3( 10, 10, 150 ),
-    //         // new THREE.Vector3( 30, -20, 250 )
-
-
-    //         new THREE.Vector3( 0, 0, 250 ),
-    //         new THREE.Vector3( -30, -20, 250 ),
-    //         new THREE.Vector3( -60, -30, 150 ),
-    //         new THREE.Vector3( -30, 35, 148 ),
-    //         new THREE.Vector3( 50, -35, 146 ),
-    //         new THREE.Vector3( 40, 50, 144 ),
-    //         new THREE.Vector3( -65, -40, 142 ),
-
-    //         //new THREE.Vector3( -10, 10, 150 ),
-    //         //new THREE.Vector3( 10, 10, 150 ),
-    //         new THREE.Vector3( -30, -20, 250 ),
-    //         new THREE.Vector3( 0, 0, 250 )
-
-    //     ]);
-        
-    //     var material = new THREE.LineBasicMaterial({
-    //         color: 0xff00f0,
-    //     });
-        
-    //     var geometry = new THREE.Geometry();
-    //     for(var i = 0; i < spline1.getPoints(100).length; i++){
-    //         geometry.vertices.push(spline1.getPoints(100)[i]);  
-    //     }
-
-    //     routeSpline = spline1;
-        
-    //     var line = new THREE.Line(geometry, material);
-    //     return line;
-    // };
-
     const init = function() {
         startAnimation = false;
         camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -222,42 +126,6 @@
         // TODO should check if animation is already busy
         startAnimation = true;
     };
-
-    // const setCameraOnSplinePath = _ => {
-    //     // Source: working cube along spline path http://jsfiddle.net/SCXNQ/891/
-    //     const fragmentSize = 1000; // default 10000, higher is slower
-    //     camPosIndex++;
-    //     if (camPosIndex > fragmentSize) {
-    //         camPosIndex = 0;
-    //         return false;
-    //     }
-    //     var camPos = routeSpline.getPoint(camPosIndex / fragmentSize);
-    //     var camRot = routeSpline.getTangent(camPosIndex / fragmentSize);
-
-    //     camera.position.x = camPos.x;
-    //     camera.position.y = camPos.y;
-    //     camera.position.z = camPos.z;
-
-    //     //console.log(camRot);
-    //     // camera.rotation.x = camRot.x;
-    //     // camera.rotation.y = camRot.y;
-    //     // camera.rotation.z = camRot.z;
-
-    //     camera.lookAt(routeSpline.getPoint((camPosIndex+1) / fragmentSize));
-    //     // TODO while z between 250 and 150, increase x rot from 0 to 0.7
-    //     //camera.rotation.x = camera.position.z > 150 ? 0 : 0.7;
-    //     if(camera.position.z <= 150) {
-    //         camera.rotation.x = 0.7;
-    //     } else if(camera.position.z >= 180) {
-    //         camera.rotation.x = 0;
-    //     } else {
-    //         var r = ((180 - camera.position.z) / 30) * 0.7;
-    //         camera.rotation.x = r;
-    //     }
-    //     camera.rotation.y = 0;
-    //     camera.rotation.z = 0;
-    //     return true;
-    // };
 
     const animate = function() {
         requestAnimationFrame( animate );
