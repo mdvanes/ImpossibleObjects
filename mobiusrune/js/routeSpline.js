@@ -1,5 +1,5 @@
 /* jshint esnext:true */
-window.mobiusrune = ((mobiusrune) => {
+window.mobiusrune = (mobiusrune => {
 
     const getRouteSpline = _ => {
         // var curve = new THREE.CatmullRomCurve3( [

@@ -1,5 +1,5 @@
 /* jshint esnext:true */
-window.mobiusrune = ((mobiusrune) => {
+window.mobiusrune = (mobiusrune => {
 
     // TODO move along path: https://codepen.io/wiledal/pen/WvNvEq
     // TODO set center of rotation for the logo in the center. It's already in the center in Blender.
