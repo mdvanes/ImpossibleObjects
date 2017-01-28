@@ -89,7 +89,7 @@
     };
 
     init();
-    console.log(camera.position);
+    //console.log(camera.position);
     animate();
 
 })(window.THREE, window.mobiusrune || {});
