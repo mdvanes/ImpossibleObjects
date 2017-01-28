@@ -18,72 +18,7 @@
         renderer.setSize( size, size );
     };
 
-    // // Degrees e.g. 90 convert to radians: 90 * Math.PI / 180;
-    // const degToRad = rad => rad * Math.PI / 180;
-
-    // const getMeshFaceMaterial = () => {
-    //     let logoTexture = new THREE.TextureLoader().load( 'texture/logo.png' );
-    //     let logoMaterial = new THREE.MeshBasicMaterial( { map: logoTexture } );
-    //     let crateTexture = new THREE.TextureLoader().load( 'texture/crate.gif' );
-    //     let crateMaterial = new THREE.MeshBasicMaterial( { map: crateTexture } );
-    //     return new THREE.MeshFaceMaterial( [crateMaterial, logoMaterial, crateMaterial, crateMaterial, crateMaterial, crateMaterial] );
-    // };
-
-    // const getMeshFaceMaterial2 = () => {
-    //     let logoTexture = new THREE.TextureLoader().load( 'texture/logo.png' );
-    //     let logoMaterial = new THREE.MeshBasicMaterial( { map: logoTexture } );
-    //     let crateTexture = new THREE.TextureLoader().load( 'texture/crate.gif' );
-    //     let crateMaterial = new THREE.MeshBasicMaterial( { map: crateTexture } );
-    //     return new THREE.MeshFaceMaterial( [logoMaterial, logoMaterial, crateMaterial, crateMaterial, 
-    //         crateMaterial, logoMaterial,crateMaterial, crateMaterial,
-    //         crateMaterial, logoMaterial,crateMaterial, crateMaterial,
-    //         crateMaterial, logoMaterial] );
-    // };
-
-    // const addBlockWithLogoMesh = scene => {
-    //     // Working basic block with image of logo
-    //     let geometry = new THREE.BoxBufferGeometry( 30, 166, 200 ); // depth, height, width
-    //     let localMesh = new THREE.Mesh( geometry, getMeshFaceMaterial() );
-
-    //     localMesh.rotation.y = degToRad(90); // Rotation in radians
-    //     scene.add( localMesh );
-    //     return localMesh;
-    // };
-
-    // // TODO move along path: https://codepen.io/wiledal/pen/WvNvEq
-    // // TODO set center of rotation for the logo in the center. It's already in the center in Blender.
-
-    // // TODO make this a pure function (do not pass scene as param, return promise?)
-    // const addExternalMesh = scene => {
-    //     // https://github.com/mrdoob/three.js/blob/dev/examples/webgl_loader_json_blender.html
-    //     // Doesn't work, maybe the one above (json_blender)
-    //     // https://github.com/mrdoob/three.js/blob/dev/examples/webgl_loader_obj.html
-    //     //const jsonPath = 'logotest1.json';
-    //     //const jsonPath = 'cube.json';
-    //     const jsonPath = 'mdlogo2.json?v=1';
-    //     const loader = new THREE.JSONLoader();
-    //     loader.load( jsonPath, ( geometry, materials) => {
-    //         console.log('JSONLoader', geometry, materials);
-
-    //         // Fix material, see https://github.com/mrdoob/three.js/blob/dev/examples/webgl_loader_json_blender.html
-    //         //const texture = new THREE.TextureLoader().load( 'texture/crate.gif' );
-    //         //const texture = new THREE.TextureLoader().load( 'texture/logo.png' );
-    //         //const texture = new THREE.TextureLoader().load( 'texture/logotest1-texture.png' );
-    //         const texture = new THREE.TextureLoader().load( 'texture/mdlogo-texture.png?v=1' );
-    //         //console.log('jsonloadertex', texture);
-    //         const material = new THREE.MeshBasicMaterial( { map: texture } );
-    //         mesh = new THREE.Mesh( geometry, material );
-    //         //mesh = new THREE.Mesh( geometry, getMeshFaceMaterial2() );
-
-    //         mesh.rotation.x = degToRad(90); // Rotation in radians
-    //         mesh.scale.set(20,20,20);
-    //         //mesh.position.x = 200;
-    //         //mesh.position.y = 60;
-    //         scene.add( mesh );    
-    //     });
-    // };
-
-    const init = function() {
+    const init = () => {
         startAnimation = false;
         camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
         camera.position.z = 250;
@@ -130,7 +65,7 @@
         startAnimation = true;
     };
 
-    const animate = function() {
+    const animate = () => {
         requestAnimationFrame( animate );
         //console.log((mesh.rotation.x * 180) / Math.PI);
         // Basic
