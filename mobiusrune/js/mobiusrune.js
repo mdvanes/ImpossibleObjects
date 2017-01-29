@@ -53,6 +53,7 @@
         updateDimensions();
         document.body.appendChild( renderer.domElement );
         window.addEventListener( 'resize', onWindowResize, false );
+        //document.querySelector('button').addEventListener( 'click', activateAnimation, false );
         window.addEventListener( 'click', activateAnimation, false );
     };
 
