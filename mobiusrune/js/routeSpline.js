@@ -13,11 +13,11 @@ window.mobiusrune = (mobiusrune => {
 
             new THREE.Vector3( 0, 0, 250 ),
             new THREE.Vector3( -30, -20, 250 ),
-            new THREE.Vector3( -60, -30, 150 ),
-            new THREE.Vector3( -30, 35, 148 ),
-            new THREE.Vector3( 50, -35, 146 ),
-            new THREE.Vector3( 40, 50, 144 ),
-            new THREE.Vector3( -65, -40, 142 ),
+            new THREE.Vector3( -70, -40, 117 ), // left bottom (in)
+            new THREE.Vector3( -50, 55, 109 ), // left top
+            new THREE.Vector3( 75, -55, 108 ), // right bottom
+            new THREE.Vector3( 50, 60, 117 ), // right top
+            new THREE.Vector3( -65, -40, 119 ), // left bottom (out)
 
             //new THREE.Vector3( -10, 10, 150 ),
             //new THREE.Vector3( 10, 10, 150 ),
