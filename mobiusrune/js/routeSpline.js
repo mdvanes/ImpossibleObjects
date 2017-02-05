@@ -2,15 +2,9 @@
 window.mobiusrune = (mobiusrune => {
 
     const getRouteSpline = _ => {
-        // var curve = new THREE.CatmullRomCurve3( [
         // docs: https://threejs.org/docs/api/extras/curves/SplineCurve3.html
         const routeSpline = new THREE.SplineCurve3([
                              // x   y   z
-            // new THREE.Vector3( -30, -20, 250 ),
-            // new THREE.Vector3( -10, 10, 150 ),
-            // new THREE.Vector3( 10, 10, 150 ),
-            // new THREE.Vector3( 30, -20, 250 )
-
             new THREE.Vector3( 0, 0, 250 ),
             new THREE.Vector3( -30, -20, 250 ),
             new THREE.Vector3( -70, -40, 117 ), // left bottom (in)
@@ -18,9 +12,6 @@ window.mobiusrune = (mobiusrune => {
             new THREE.Vector3( 75, -55, 108 ), // right bottom
             new THREE.Vector3( 50, 60, 117 ), // right top
             new THREE.Vector3( -65, -40, 119 ), // left bottom (out)
-
-            //new THREE.Vector3( -10, 10, 150 ),
-            //new THREE.Vector3( 10, 10, 150 ),
             new THREE.Vector3( -30, -20, 250 ),
             new THREE.Vector3( 0, 0, 250 )
         ]);
