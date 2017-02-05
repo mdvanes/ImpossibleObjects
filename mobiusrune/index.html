@@ -14,12 +14,12 @@ body {
 }
 h2, p {
     font-family: sans-serif;
+    user-select: none;
 }
 canvas {
     margin: 1em;
 }
 h2 {
-    color: red;
     font-weight: bold;
 }
 button {
@@ -31,11 +31,11 @@ button {
         <p>
         Based on <a href="https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_cube.html">webgl_geometry_cube</a>
         </p>
-        <h2>WORK IN PROGRESS</h2>
-        <button title="Play!">&#x25ba;</button>
+        <h2>Click to animate</h2>
         <div class="mobiusrune"></div>
 
         <script src="lib/three.min.js"></script>
+        <script src="lib/Tween.js"></script>
 
         <script src="js/routeSpline.js"></script>
         <script src="js/util.js"></script>

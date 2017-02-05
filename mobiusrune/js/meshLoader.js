@@ -11,7 +11,8 @@ window.mobiusrune = (mobiusrune => {
         // https://github.com/mrdoob/three.js/blob/dev/examples/webgl_loader_obj.html
         //const jsonPath = 'logotest1.json';
         //const jsonPath = 'cube.json';
-        const jsonPath = 'mdlogo2.json?v=1';
+        const cacheBustId = 2;
+        const jsonPath = 'mdlogo2.json?v=' + cacheBustId;
         const loader = new THREE.JSONLoader();
         loader.load( jsonPath, ( geometry, materials) => {
             console.log('JSONLoader', geometry, materials);
@@ -20,11 +21,13 @@ window.mobiusrune = (mobiusrune => {
             //const texture = new THREE.TextureLoader().load( 'texture/crate.gif' );
             //const texture = new THREE.TextureLoader().load( 'texture/logo.png' );
             //const texture = new THREE.TextureLoader().load( 'texture/logotest1-texture.png' );
-            const texture = new THREE.TextureLoader().load( 'texture/mdlogo-texture.png?v=1' );
+            const texture = new THREE.TextureLoader().load( 'texture/mdlogo-texture.png?v=' + cacheBustId );
             //console.log('jsonloadertex', texture);
             const material = new THREE.MeshBasicMaterial( { map: texture } );
             const mesh = new THREE.Mesh( geometry, material );
             //mesh = new THREE.Mesh( geometry, getMeshFaceMaterial2() );
+
+            geometry.center(); // Auto set the (rotation) center of the geometry
 
             mesh.rotation.x = mobiusrune.degToRad(90); // Rotation in radians
             mesh.scale.set(20,20,20);
