@@ -36,7 +36,7 @@
         });
 
         routeSpline = mobiusrune.getRouteSpline();
-        scene.add(mobiusrune.getRouteDebugLine(routeSpline));
+        //scene.add(mobiusrune.getRouteDebugLine(routeSpline));
 
         // Test overlapping objects
         // let mesh2 = new THREE.Mesh( geometry, material );
@@ -55,15 +55,52 @@
         window.addEventListener( 'resize', onWindowResize, false );
         //document.querySelector('button').addEventListener( 'click', activateAnimation, false );
         window.addEventListener( 'click', activateAnimation, false );
+        window.addEventListener( 'dblclick', activateDblClickAnimation, false );
     };
 
     const onWindowResize = () => updateDimensions();
 
     // TODO should be if clicked three times within 1 second
-    const activateAnimation = () => {
+    const activateAnimation = event => {
         //console.warn('activateAnimation');
         // TODO should check if animation is already busy
-        startAnimation = true;
+        //startAnimation = true;
+
+        // http://stackoverflow.com/questions/9094971/threejs-rotation-animation
+
+        event.preventDefault();
+        setTimeout(function() {
+            if(!startAnimation) {
+                startAnimation = true;
+                new TWEEN.Tween( mesh.rotation )
+                    .to({ 
+                        z: mesh.rotation.z + mobiusrune.degToRad(360)
+                    }, 800 )
+                    .easing( TWEEN.Easing.Quadratic.EaseOut)
+                    .onComplete(function() {
+                        startAnimation = false;
+                    })
+                    .start();
+            }
+        }, 300);
+    };
+
+    const activateDblClickAnimation = event => {
+        event.preventDefault();
+        console.log('double');
+        //startAnimation = true;
+        if(!startAnimation) {
+            startAnimation = true;
+            new TWEEN.Tween( mesh.rotation )
+                .to({ 
+                    z: mesh.rotation.z + mobiusrune.degToRad(1080)
+                }, 1200 )
+                .easing( TWEEN.Easing.Quadratic.EaseOut)
+                .onComplete(function() {
+                    startAnimation = false;
+                })
+                .start();
+        }
     };
 
     const animate = () => {
@@ -78,14 +115,15 @@
         // }
         // Jsonloader
         if(startAnimation && mesh.rotation.x > mobiusrune.degToRad(-15)) {
-            //mesh.rotation.x -= 0.01;
+            //mesh.rotation.z -= 0.01;
             // Determine the next step on the path and return whether to continue the animation
-            startAnimation = mobiusrune.setCameraOnSplinePath(camera, routeSpline);
+            //startAnimation = mobiusrune.setCameraOnSplinePath(camera, routeSpline);
         } else if(startAnimation) {
-            setTimeout(() => mesh.rotation.x = mobiusrune.degToRad(90), 800);
-            startAnimation = false;
+            //setTimeout(() => mesh.rotation.x = mobiusrune.degToRad(90), 800);
+            //startAnimation = false;
         }
 
+        TWEEN.update();
         renderer.render( scene, camera );
     };
 
