@@ -33,9 +33,6 @@ window.mobiusrune = (mobiusrune => {
 
     const setCameraOnSplinePath = (camera, routeSpline) => {
         // Source: working cube along spline path http://jsfiddle.net/SCXNQ/891/
-
-        // Keeping the camera straight up
-        // http://stackoverflow.com/questions/18400667/three-js-object-following-a-spline-path-rotation-tanget-issues-constant-sp
         const fragmentSize = 1000; // default 10000, higher is slower
         camPosIndex++;
         if (camPosIndex > fragmentSize) {
@@ -47,26 +44,8 @@ window.mobiusrune = (mobiusrune => {
 
         camera.position.copy(camPos);
 
-        // https://github.com/takahirox/takahirox.github.io/blob/master/three.js.mmdeditor/examples/webvr_rollercoaster.html
 
-
-        // http://stackoverflow.com/questions/11179327/orient-objects-rotation-to-a-spline-point-tangent-in-three-js
-        //tangent = routeSpline.getTangentAt( camPosIndex / fragmentSize ).normalize();
-        // tangent = camRot.normalize();
-        // axis.crossVectors(up, tangent).normalize();
-        // let radians = Math.acos(up.dot(tangent));
-        // camera.quaternion.setFromAxisAngle(axis, radians);
-
-        //console.log(camRot);
-        // camera.rotation.x = camRot.x;
-        // camera.rotation.y = camRot.y;
-        // camera.rotation.z = camRot.z;
-
-        //camera.lookAt(routeSpline.getPoint((camPosIndex+1) / fragmentSize));
-
-        // camera.rotation.y = 0;
-        // camera.rotation.z = 0;
-        // // While z between 250 and 150, increase x rot from 0 to targetRotation
+        // While z between 250 and 150, increase x rot from 0 to targetRotation
         const targetRotation = mobiusrune.degToRad(80); //0.7;
         if(camera.position.z <= 120) {
             camera.rotation.x = targetRotation;
@@ -75,6 +54,7 @@ window.mobiusrune = (mobiusrune => {
 
             //camera.lookAt(routeSpline.getPoint((camPosIndex+1) / fragmentSize));
 
+            // https://github.com/takahirox/takahirox.github.io/blob/master/three.js.mmdeditor/examples/webvr_rollercoaster.html
             // var delta = clock.getDelta() * 60;
             // progress += velocity * delta;
             // progress = progress % 1;
