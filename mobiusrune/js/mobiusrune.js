@@ -1,6 +1,6 @@
 /* jshint esnext:true */
 ((THREE, mobiusrune) => {
-    let camera, scene, renderer, mesh, canvasSquareSize, startAnimation/*, routeSpline*/;
+    let camera, scene, renderer, mesh, canvasSquareSize, startAnimation;
 
     const getCanvasSquareSize = () => { 
         if(window.innerWidth > window.innerHeight) {
@@ -27,9 +27,6 @@
             mesh = logoMesh;
             scene.add( mesh );
         });
-
-        //routeSpline = mobiusrune.getRouteSpline();
-        //scene.add(mobiusrune.getRouteDebugLine(routeSpline));
 
         renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setClearColor(0x303030, 1.0);
